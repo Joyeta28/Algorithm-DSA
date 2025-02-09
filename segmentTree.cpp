@@ -14,6 +14,22 @@ void buildSegmentTree(int i,int l,int r,vector<int>&nums){
     buildSegmentTree(2*i+2,mid+1,r,nums);
     segmentTree[i] = segmentTree[2*i+1] + segmentTree[2*i+2];
 }
+void updateSegment(int i,int index,int val,int l,int r){
+    if(l==r){
+        segmentTree[i] = val;
+        return;
+    }
+
+    int mid = l+(r-l)/2;
+    if(index<=mid){
+        updateSegment(2*i+1,index,val,l,mid);
+    }
+    else{
+        updateSegment(2*i+2,index,val,mid+1,r);
+    }
+    segmentTree[i] = segmentTree[2*i+1] + segmentTree[2*i+2];
+}
+
 int querySumSegmentTree(int start,int end,int l,int r,int i){
     if(end<l || start>r){
         return 0;
@@ -30,5 +46,7 @@ int main() {
     int n = nums.size();
     segmentTree.resize(4*n);
     buildSegmentTree(0,0,n-1,nums);
-    cout<<querySumSegmentTree(2,4,0,n-1,0);
+    cout<<querySumSegmentTree(2,4,0,n-1,0)<<endl;
+    updateSegment(0,2,5,0,n-1);
+    cout<<querySumSegmentTree(2,4,0,n-1,0)<<endl;
 }
