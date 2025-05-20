@@ -37,7 +37,7 @@ int main()
             }    
         }
     }
-    if(ans.size()!=n) cout<<"IMPOSSIBLE"<<endl;
+    if(ans.size()!=n) cout<<"has a cycle"<<endl;
     else{
         for(auto u:ans){
             cout<<u<<" ";
