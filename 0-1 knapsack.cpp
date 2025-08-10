@@ -7,21 +7,23 @@ using namespace std;
 int main() {
     int n, W;
     cin >> n >> W;
-    vector<ll> w(n), v(n);
+    vector<int> w(n), v(n);
     for (int i = 0; i < n; i++) {
-        cin >> w[i] >> v[i];
+        cin >> w[i];
+    }
+    for (int i = 0; i < n; i++) {
+        cin >>  v[i];
     }
 
-    vector<vector<ll>> dp(n + 1, vector<ll>(W + 1, 0));
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
 
-    for (int i = 1; i <= n; i++) {              // items 1..n
-        for (int cap = 0; cap <= W; cap++) {    // capacity 0..W
-            ll not_take = dp[i - 1][cap];       // skip current item
-            ll take = 0;
-            if (w[i - 1] <= cap) {
-                take = v[i - 1] + dp[i - 1][cap - w[i - 1]];
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= W; j++) {
+            dp[i][j] = dp[i - 1][j];
+
+            if (w[i - 1] <= j) {
+                dp[i][j] = max(dp[i][j],v[i - 1] + dp[i - 1][j - w[i - 1]]);
             }
-            dp[i][cap] = max(take, not_take);
         }
     }
 
